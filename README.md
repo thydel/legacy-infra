@@ -1,3 +1,3 @@
 # reboot
 
-[reboot](reboot) was used 3 years ago to auto reboot VM 
+[reboot](reboot/tasks) was used 3 years ago to auto reboot VM 
