@@ -1,0 +1,8 @@
+# -*- Mode: YAML; mmm-classes: (embedded-rst embedded-m4); indent-tabs-mode: nil; fill-column: 96; -*-
+
+---
+
+- name: boot - start containers using crypted
+  command: vzctl start {{ item.name }} creates=/proc/vz/container/{{ item.ctid }}
+  with_items: reboot.containers
+  when: reboot.containers is defined

@@ -1,0 +1,11 @@
+# -*- Mode: YAML; mmm-classes: (embedded-rst embedded-m4); indent-tabs-mode: nil; fill-column: 96; -*-
+
+---
+
+- name: halt - stop crypted dependent services
+  service: name={{ item }} state=stopped
+  with_items: reboot.services
+  when: reboot.services is defined
+
+- name: halt - shutdown
+  command: shutdown -h now

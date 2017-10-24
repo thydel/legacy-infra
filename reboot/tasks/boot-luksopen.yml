@@ -1,0 +1,15 @@
+# -*- Mode: YAML; mmm-classes: (embedded-rst embedded-m4); indent-tabs-mode: nil; fill-column: 96; -*-
+
+---
+
+- name: boot - run cryptsetup luksopen
+  shell:
+    executable=/bin/bash
+    creates=/dev/mapper/{{ item.name }}
+    env | grep {{ item.passwd }} | cut -d= -f2 | head -c-1
+    | cryptsetup luksOpen --key-file - $(grep -E '^{{ item.name }}[^2-9]'  /etc/crypttab | awk '{print $2}') {{ item.name }}
+  environment:
+    diskpassword1: "{{ diskpassword1 }}"
+    diskpassword2: "{{ diskpassword2 }}"
+  with_items: reboot.crypted
+  when: reboot.crypted is defined

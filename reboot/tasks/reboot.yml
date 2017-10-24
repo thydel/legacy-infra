@@ -1,0 +1,9 @@
+# -*- Mode: YAML; mmm-classes: (embedded-rst embedded-m4); indent-tabs-mode: nil; fill-column: 96; -*-
+
+---
+
+- include: boot-shutdown.yml tags=reboot,shutdown
+- include: boot-luksopen.yml tags=reboot,luksopen,post-reboot
+- include: boot-mounts.yml tags=reboot,mounts,post-reboot
+- include: boot-services.yml tags=reboot,services,post-reboot
+- include: boot-containers.yml tags=reboot,containers,post-reboot

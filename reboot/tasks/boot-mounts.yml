@@ -1,0 +1,22 @@
+# -*- Mode: YAML; mmm-classes: (embedded-rst embedded-m4); indent-tabs-mode: nil; fill-column: 96; -*-
+
+---
+
+- name: boot - mount crypted
+  command: mount /{{ item.name }} creates=/{{ item.name }}/lost+found
+  with_items: reboot.crypted
+  when: reboot.crypted is defined
+
+# we can't rely on lost+found
+# dont forget to touch  .nfs-mounted before use
+- name: boot - mount nfs
+  command: mount {{ item }} creates={{ item }}/.nfs-mounted
+  with_items: reboot.nfs
+  when: reboot.nfs is defined
+
+# we can't rely on lost+found
+# dont forget to touch  .bind-mounted before use
+- name: boot - mount bind
+  command: mount {{ item }} creates={{ item }}/.bind-mounted
+  with_items: reboot.bind
+  when: reboot.bind is defined

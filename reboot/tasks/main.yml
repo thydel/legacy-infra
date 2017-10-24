@@ -1,0 +1,7 @@
+# -*- Mode: YAML; mmm-classes: (embedded-rst embedded-m4); indent-tabs-mode: nil; fill-column: 96; -*-
+
+---
+
+- include: halt.yml tags=halt
+- include: disabled-services.yml tags=disabled-services
+- include: reboot.yml

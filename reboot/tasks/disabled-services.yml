@@ -1,0 +1,14 @@
+# -*- Mode: YAML; mmm-classes: (embedded-rst embedded-m4); indent-tabs-mode: nil; fill-column: 96; -*-
+
+---
+
+- service: name={{ item }} enabled=no
+  with_items: reboot.services
+  when: 5 < {{ ansible_lsb.major_release }}
+
+- apt: pkg=sysv-rc-conf
+  when: 5 == {{ ansible_lsb.major_release }}
+
+- command: sysv-rc-conf {{ item }} off
+  with_items: reboot.services
+  when: 5 == {{ ansible_lsb.major_release }}

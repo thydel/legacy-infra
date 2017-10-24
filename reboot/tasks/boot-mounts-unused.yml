@@ -1,0 +1,20 @@
+# -*- Mode: YAML; mmm-classes: (embedded-rst embedded-m4); indent-tabs-mode: nil; fill-column: 96; -*-
+
+---
+
+# mount module has strange requirement
+# having to pass src and fstype defeat very purpose of fstab
+- name: boot - mount crypted
+  mount: name=/{{ item.name }} src=/dev/mapper/{{ item.name }} fstype=ext3 state=mounted
+  with_items: reboot.crypted
+  when: False
+
+# ok this modules is really brain dammaged
+# carreful reading confirm that state=mounted will also erase fstab entry
+# really defeating ability to mount without needing to maintain irrelevant options
+
+- name: boot - mount nfs
+  mount: name={{ item.name }} src={{ item.src }} fstype=nfs state=mounted
+  with_items: reboot.nfs
+  when: reboot.nfs is defined
+  when: False

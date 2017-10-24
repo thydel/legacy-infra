@@ -1,0 +1,25 @@
+# -*- Mode: YAML; mmm-classes: (embedded-rst embedded-m4); indent-tabs-mode: nil; fill-column: 96; -*-
+
+---
+
+- name: boot - stop crypted dependent services
+  service: name={{ item }} state=stopped
+  with_items: reboot.services
+  when: reboot.services is defined
+
+- name: boot - shutdown
+  command: shutdown -r now
+
+- name: boot - optional pause for proxmox
+  pause: minutes={{ reboot.pause }}
+  when: reboot.pause is defined
+
+- name: boot - set default reboot.name
+  set_fact:
+    reboot:
+      name: "{{ inventory_hostname }}"
+  when: reboot.name is not defined
+
+- name: boot - wait sshd
+  wait_for: host={{ reboot.name }} port=22 delay=20 timeout=60
+  delegate_to: "{{ reboot.proxy }}"
